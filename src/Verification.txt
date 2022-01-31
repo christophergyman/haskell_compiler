@@ -1,0 +1,103 @@
+Proof:
+--TODO Task 4
+
+exec (acomp a) (0,s,[]) == (length (acomp a), s, [aval a s])
+
+----------------------------------------|
+	--Proof left hand side---
+
+= {Left hand side}
+exec (acomp a) (0,s,[]) 
+
+= {apply acomp}
+exec ([LOADI a] (0,s,[])) 
+
+= {apply exec function}
+(a,s,[a]) 
+
+= {Un-apply aval}
+(a, s, [aval a s]) 
+
+= {Change counter}
+(length (acomp a), s, [aval a s]) 
+
+={Left and right hand side equivalance}
+(length (acomp a), s, [aval a s]) = (length (acomp a), s, [aval a s]) 
+
+----------------------------------------|
+--Base case
+exec (acomp a) (0,s,[])
+
+
+	--Case 1 (N n):
+Let a = (N n)
+exec (acomp (N n) (0, s ,[]))
+
+={Apply acomp}
+exec ([LOADI n] (0, s [])))
+
+={Apply exec}
+(1, s, [n])
+
+= (Unapply counter and change variable to a)
+(length (acomp a), s, [n])
+
+= {Un apply aval}
+(length (acomp a), s, [aval a s])
+----------------------------------------|
+--Base case
+exec (acomp a) (0,s,[])
+
+--Case 2 (V x):
+Let a = (V x)
+exec (acomp (V x) (0, s, []))
+
+= {Apply acomp}
+exec ((LOAD x) (0, s, []))
+
+= {Apply exec}
+(1, s, [s ! x])
+
+= {Unapply aval}
+(1, s, [aval (V x) s])
+
+= {Un apply program counter}
+(length (acomp 1), s [aval (V x) s])
+
+----------------------------------------|
+--Base case
+exec (acomp a) (0,s,[])
+
+--Case 3 (Plus a1 a2):
+Let a = (Plus a1 a2)
+exec (acomp (Plus a1 a2)) (0,s,[])
+
+= {Apply acomp}
+exec (acomp a1 ++ acomp a2 ++ [ADD]) (0,s,[])
+
+= {Assosiative of ++}
+exec (acomp a1 ++ (acomp a2 ++ [ADD])) (0,s,[])
+
+= {Distributive of function}
+exec (acomp a2 ++ [ADD]) (exec (acomp a1) (0,s,[]))
+
+= {Induction hypothesis for a1}
+exec (acomp a2 ++ [ADD]) ((1,s,[aval a1]))
+
+= {Distributive of function}
+exec [ADD] (exec (acomp a2) ((1,s,[aval a1 s]))
+
+= {Induction hypothesis for a2}
+exec [ADD] ((2,s,[aval a1 s, aval a2 s]))
+
+= {Apply exec}
+(3, s, [(aval a1 s) + (aval a2 s)])
+
+= {Un-apply aval}
+aval (3, s, [aval (Plus a1 a2)])
+
+
+
+
+----------------------------------------|
+----------------------------------------|
