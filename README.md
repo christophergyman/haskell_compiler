@@ -1,4 +1,4 @@
-# ECM2418 Coursework 2021
+# Simple Compile in Haskell
 
 It consists of three folders:
 - *src* contains templates for the three main modules: Compiler.hs, Interpreter.hs, and StackMachine.hs.
